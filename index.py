@@ -1,11 +1,11 @@
 from typing import List
 
 from interfaces import Customer
-from moga import AntColonyOptimizer
+from moga import MOGAOptimizer
 
 def main():
-    vpr = "vpr.txt"
-    data = open(vpr, "r").read()
+    vrp = "vrp.txt"
+    data = open(vrp, "r").read()
 
     customers: List[Customer] = []
     for line in data.strip().split('\n'):
@@ -13,14 +13,12 @@ def main():
         customers.append(
             Customer(id=parts[0], x=parts[1], y=parts[2], demand=parts[3]))
 
-    iteration = 50
-    aco = AntColonyOptimizer(
-        customers=customers, number_of_ants=30, visualize=True)
+    moga = MOGAOptimizer(customers=customers)
 
     # Optimize
-    archive = aco.optimize(niter=iteration)
+    archive = moga.optimize()
 
-    # Plot archive
+    # Plot
     archive.plot()
 
 if __name__ == "__main__":
